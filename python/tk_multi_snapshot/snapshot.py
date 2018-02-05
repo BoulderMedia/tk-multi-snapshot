@@ -132,6 +132,11 @@ class Snapshot(object):
         fields = self._work_template.get_fields(work_path)
         fields = dict(chain(self._app.context.as_template_fields(self._snapshot_template).iteritems(), fields.iteritems()))
 
+        # Custom code - insert version
+        import workarea
+        wa = workarea.util.workarea_from_context(self._app.context)
+        fields["version"] = wa.version
+
         # add additional fields:
         fields["timestamp"] = datetime.now().strftime(Snapshot.TIMESTAMP_FMT)
         
